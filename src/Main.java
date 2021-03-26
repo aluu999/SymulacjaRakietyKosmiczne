@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 public class Main extends JFrame {
 
 	public Main() throws HeadlessException {
-		// TODO Auto-generated constructor stub
+		// TODO Auto-generated constructor stubdfghjkjhgfd
 	}
 
 	public Main(GraphicsConfiguration gc) {
