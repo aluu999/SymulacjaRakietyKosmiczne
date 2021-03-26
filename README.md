@@ -1,2 +1,5 @@
 # SymulacjaRakietyKosmiczne
+projekcik okkk
+aaalaksjdhfgfjkdsdjbghfjdkslwkdjfhbgfjdkslaskmndv nmckdls;wqlwkenfb
+k
 tutaj weroooo
