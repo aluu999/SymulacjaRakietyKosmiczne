@@ -25,22 +25,26 @@ public class ButtonPanel extends JPanel {
 	public ButtonPanel() {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		//ustalenie odstêpów od granicy panelu
 
 		wR = new JLabel("Wybór rakiety:");
 		wR.setAlignmentX(Component.CENTER_ALIGNMENT);
+		//wycentrowanie komponentu
 		this.add(wR);
 		String[] listaRakiet = { "Big Falcon Rocket", "Saturn V (S-IC)" };
 		wyborRakiety = new JComboBox<Object>(listaRakiet);
 		wyborRakiety.setMaximumSize(wyborRakiety.getPreferredSize());
+		//zmiana rozmiaru comboboxa
 		this.add(wyborRakiety);
 
 		this.add(Box.createRigidArea(new Dimension(0, 10)));
-
+		//utworzenie wolnej przestrzeni miedzy komponentaami
+		
 		text = new JTextField("Masa paliwa [kg]");
 		text.setMaximumSize(text.getPreferredSize());
 		this.add(text);
 
-		this.add(Box.createRigidArea(new Dimension(0, 10)));
+		this.add(Box.createRigidArea(new Dimension(0, 10))); 
 
 		wP = new JLabel("Wybór planety:");
 		wP.setAlignmentX(Component.CENTER_ALIGNMENT);

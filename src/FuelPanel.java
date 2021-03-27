@@ -16,7 +16,7 @@ public class FuelPanel extends JPanel {
 	public JLabel predkosc;
 	public JLabel czas;
 	public JLabel paliwo;
-	public JTextField wskaznikPaliwa; //to ma byæ ten rysunek, prostok¹t aktualizuj¹cy iloœæ paliwa
+	public JTextField wskaznikPaliwa; //to ma byæ progress bar
 
 	public FuelPanel() {
 		GroupLayout layout = new GroupLayout(this);
@@ -29,11 +29,11 @@ public class FuelPanel extends JPanel {
 		predkosc = new JLabel("Prêdkoœæ:");
 		czas = new JLabel("Czas:");
 		paliwo = new JLabel("Zosta³o paliwa: ");
-		wskaznikPaliwa = new JTextField("eeeee to bedzie ten prostok¹t");
+		wskaznikPaliwa = new JTextField("to bêdzie progress bar");
 
 		layout.setHorizontalGroup(layout.createSequentialGroup()
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-						.addComponent(wskaznikPaliwa)//to ma byæ ten rysunek, prostok¹t aktualizuj¹cy iloœæ paliwa
+						.addComponent(wskaznikPaliwa)
 						.addComponent(predkosc)
 						.addComponent(czas)
 						.addComponent(paliwo))
