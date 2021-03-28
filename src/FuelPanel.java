@@ -1,5 +1,8 @@
 
 import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,7 +19,7 @@ public class FuelPanel extends JPanel {
 	public JLabel predkosc;
 	public JLabel czas;
 	public JLabel paliwo;
-	public JTextField wskaznikPaliwa; //to ma byæ progress bar
+	public JTextField wskaznikPaliwa;//to ma byÄ‡ progress bar
 
 	public FuelPanel() {
 		GroupLayout layout = new GroupLayout(this);
@@ -26,10 +29,10 @@ public class FuelPanel extends JPanel {
 
 		start = new JButton("Start/Stop");
 		reset = new JButton("Reset");
-		predkosc = new JLabel("Prêdkoœæ:");
+		predkosc = new JLabel("PrÄ™dkoÅ›Ä‡:");
 		czas = new JLabel("Czas:");
-		paliwo = new JLabel("Zosta³o paliwa: ");
-		wskaznikPaliwa = new JTextField("to bêdzie progress bar");
+		paliwo = new JLabel("ZostaÅ‚o paliwa: ");
+		wskaznikPaliwa = new JTextField("to bÄ™dzie progress bar");
 
 		layout.setHorizontalGroup(layout.createSequentialGroup()
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -59,7 +62,6 @@ public class FuelPanel extends JPanel {
 										.addComponent(paliwo)))
 						.addComponent(start))
 				);
-
 	}
 
 	public FuelPanel(LayoutManager layout) {
@@ -76,5 +78,4 @@ public class FuelPanel extends JPanel {
 		super(layout, isDoubleBuffered);
 
 	}
-
 }
