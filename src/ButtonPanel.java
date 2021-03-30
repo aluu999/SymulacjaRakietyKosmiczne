@@ -41,7 +41,7 @@ public class ButtonPanel extends JPanel {
 	public ButtonPanel() {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		// ustalenie odstepów od granicy panelu
+		// ustalenie odstep�w od granicy panelu
 
 		wR = new JLabel("Wybór rakiety:");
 		wR.setAlignmentX(Component.CENTER_ALIGNMENT); // wycentrowanie komponentu
@@ -49,8 +49,6 @@ public class ButtonPanel extends JPanel {
 		String[] listaRakiet = { "Big Falcon Rocket", "Saturn V" };
 		wyborRakiety = new JComboBox<Object>(listaRakiet);
 		wyborRakiety.setMaximumSize(wyborRakiety.getPreferredSize()); // zmiana rozmiaru comboboxa
-		this.add(wyborRakiety);
-
 		this.add(wyborRakiety);
 
 		this.add(Box.createRigidArea(new Dimension(0, 10))); // utworzenie wolnej przestrzeni miedzy komponentaami
@@ -73,21 +71,19 @@ public class ButtonPanel extends JPanel {
 
 		info = new JButton("Informacje o rakiecie");
 		info.setAlignmentX(Component.CENTER_ALIGNMENT);
-		this.add(info);
 
 		ActionListener info_l = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg) {
 				String item = (String) wyborRakiety.getSelectedItem();
-
+				okno = new JDialog();
+				panelImg = new JPanel();
+				okno.add(panelImg, BorderLayout.LINE_END);
+				panelText = new JPanel();
+				okno.add(panelText, BorderLayout.LINE_START);
+				
 				switch (item) {
 				case "Big Falcon Rocket":
-					okno = new JDialog();
-					panelImg = new JPanel();
-					okno.add(panelImg, BorderLayout.LINE_END);
-					panelText = new JPanel();
-
-					okno.add(panelText, BorderLayout.LINE_START);
 					dane = new JLabel("Big Falcon Rocket (Starship)");
 					dane.setFont(new Font("Serif", Font.ITALIC, 30));
 					panelText.add(dane);
@@ -106,41 +102,10 @@ public class ButtonPanel extends JPanel {
 									+ "spalanie na Ziemii=900kg/s, na Marsie=2400kg/s, "
 									+ "prędkość gazów wylotowych na Ziemii=3300m/s, na Marsie=1240m/s. ",
 							10, 40);
-					panelText.add(opis);
-					opis.setLineWrap(true);
-					opis.setWrapStyleWord(true);
-					opis.setOpaque(false);
-					opis.setEditable(false);
-					panelText.setLayout(new GridLayout(2, 1));
-
-					panelImg.setLayout(new GridBagLayout());
-					GridBagConstraints c = new GridBagConstraints();
-
-					labelImg = new JLabel("");
-					img = new ImageIcon(this.getClass().getResource("/Starship.jpg"));
-					labelImg.setIcon(img);
-					c.fill = GridBagConstraints.HORIZONTAL;
-					c.gridx = 1;
-					c.gridy = 0;
-					panelImg.add(labelImg, c);
-
-					label = new JLabel("Fot. Grafika komputerowa przedstawiająca start Starship.Zródło:Wikipedia");
-					c.fill = GridBagConstraints.HORIZONTAL;
-					c.weightx = 0.0;
-					c.gridwidth = 3;
-					c.gridx = 0;
-					c.gridy = 1;
-					panelImg.add(label, c);
-					okno.setSize(850, 600);
-					okno.setVisible(true);
+					
 					break;
 
 				case "Saturn V":
-					okno = new JDialog();
-					panelImg = new JPanel();
-					okno.add(panelImg, BorderLayout.LINE_END);
-					panelText = new JPanel();
-					okno.add(panelText, BorderLayout.LINE_START);
 					dane = new JLabel("Saturn V");
 					dane.setFont(new Font("Serif", Font.ITALIC, 30));
 					panelText.add(dane);
@@ -155,40 +120,40 @@ public class ButtonPanel extends JPanel {
 									+ "spalanie na Ziemii=13 000 kg/s, na Marsie=35 000 kg/s, "
 									+ "prędkość gazów wylotowych na Ziemii=2580 m/s, na Marsie=970 m/s. ",
 							10, 40);
-					panelText.add(opis);
-					opis.setLineWrap(true);
-					opis.setWrapStyleWord(true);
-					opis.setOpaque(false);
-					opis.setEditable(false);
-					panelText.setLayout(new GridLayout(2, 1));
-
-					panelImg.setLayout(new GridBagLayout());
-					GridBagConstraints d = new GridBagConstraints();
-
-					labelImg = new JLabel("");
-					img = new ImageIcon(this.getClass().getResource("/saturnv.jpg"));
-					labelImg.setIcon(img);
-					d.fill = GridBagConstraints.HORIZONTAL;
-					d.gridx = 1;
-					d.gridy = 0;
-					panelImg.add(labelImg, d);
-
-					label = new JLabel("Fot.Saturn V podczas misji Apollo 11. Zródło:Wikipedia");
-					d.fill = GridBagConstraints.HORIZONTAL;
-					d.weightx = 0.0;
-					d.gridwidth = 3;
-					d.gridx = 0;
-					d.gridy = 1;
-
-					panelImg.add(label, d);
-
-					okno.setSize(850, 600);
-					okno.setVisible(true);
 					break;
 				}
+				panelText.add(opis);
+				opis.setLineWrap(true);
+				opis.setWrapStyleWord(true);
+				opis.setOpaque(false);
+				opis.setEditable(false);
+				panelText.setLayout(new GridLayout(2, 1));
+
+				panelImg.setLayout(new GridBagLayout());
+				GridBagConstraints c = new GridBagConstraints();
+
+				labelImg = new JLabel("");
+				img = new ImageIcon(this.getClass().getResource("/Starship.jpg"));
+				labelImg.setIcon(img);
+				c.fill = GridBagConstraints.HORIZONTAL;
+				c.gridx = 1;
+				c.gridy = 0;
+				panelImg.add(labelImg, c);
+
+				label = new JLabel("Fot. Grafika komputerowa przedstawiająca start Starship. Zródło: Wikipedia");
+				c.fill = GridBagConstraints.HORIZONTAL;
+				c.weightx = 0.0;
+				c.gridwidth = 3;
+				c.gridx = 0;
+				c.gridy = 1;
+				panelImg.add(label, c);
+				okno.setSize(900, 600);
+				okno.setVisible(true);
 			}
 		};
+		
 		info.addActionListener(info_l);
+		this.add(info);
 
 		this.add(Box.createRigidArea(new Dimension(0, 10)));
 
