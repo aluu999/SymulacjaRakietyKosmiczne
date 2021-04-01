@@ -11,7 +11,8 @@ public class Main extends JFrame {
 	public JPanel panel1;
 	public ButtonPanel panel2;
 	public FuelPanel panel3;
-	
+	public float vgz;
+	public RakietaComboBoxListener panel;
 
 	public Main() throws HeadlessException {
 		this.setSize(640, 480);
@@ -20,20 +21,23 @@ public class Main extends JFrame {
 
 		// pierwszy panel centralny to bêdzie animacja
 		// drugi panel to przyciski wyborów
-		// trzeci to wskanik paliwa, labelki ilepaliwa i predkoœæ oraz buttony start/stop, reset
-		
+		// trzeci to wskanik paliwa, labelki ilepaliwa i predkoœæ oraz buttony
+		// start/stop, reset
+
 		panel1 = new JPanel();
 		this.add(panel1, BorderLayout.CENTER);
 		panel2 = new ButtonPanel();
 		this.add(panel2, BorderLayout.LINE_END);
-		panel3 = new FuelPanel();
+
+		panel = new RakietaComboBoxListener();
+		panel3 = new FuelPanel(9);
+
 		this.add(panel3, BorderLayout.PAGE_END);
 
 		panel1.setBackground(Color.black); // to tylko do pomocy dla mnie, potem to usunê
 		panel2.setBackground(Color.blue);
 		panel3.setBackground(Color.green);
-		
-	
+
 	}
 
 	public Main(GraphicsConfiguration gc) {

@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+
 public class ButtonPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -41,7 +42,7 @@ public class ButtonPanel extends JPanel {
 	public ButtonPanel() {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		// ustalenie odstep�w od granicy panelu
+		// ustalenie odstepow od granicy panelu
 
 		wR = new JLabel("Wybór rakiety:");
 		wR.setAlignmentX(Component.CENTER_ALIGNMENT); // wycentrowanie komponentu
@@ -50,7 +51,11 @@ public class ButtonPanel extends JPanel {
 		wyborRakiety = new JComboBox<Object>(listaRakiet);
 		wyborRakiety.setMaximumSize(wyborRakiety.getPreferredSize()); // zmiana rozmiaru comboboxa
 		this.add(wyborRakiety);
-
+		wyborRakiety.addItemListener(new RakietaComboBoxListener());
+		///pamietac, ze jezeli uzytkownik nie kliknie na jcomboboxa, trzeba ustawic domyslnie dane na rakiete big falcon rocket
+		///ewentualnie zmienic jcomboboxa i dac pierwszy item "wybor rakiety", wtedy uzytkownik zawsze bedzie klikal na liste->uruchamial listener
+		
+		
 		this.add(Box.createRigidArea(new Dimension(0, 10))); // utworzenie wolnej przestrzeni miedzy komponentaami
 
 		text = new JTextField("Masa paliwa [kg]");
@@ -81,7 +86,7 @@ public class ButtonPanel extends JPanel {
 				okno.add(panelImg, BorderLayout.LINE_END);
 				panelText = new JPanel();
 				okno.add(panelText, BorderLayout.LINE_START);
-				
+				labelImg = new JLabel("");
 				switch (item) {
 				case "Big Falcon Rocket":
 					dane = new JLabel("Big Falcon Rocket (Starship)");
@@ -102,7 +107,9 @@ public class ButtonPanel extends JPanel {
 									+ "spalanie na Ziemii=900kg/s, na Marsie=2400kg/s, "
 									+ "prędkość gazów wylotowych na Ziemii=3300m/s, na Marsie=1240m/s. ",
 							10, 40);
-					
+					img = new ImageIcon(this.getClass().getResource("/Starship.jpg"));
+					label = new JLabel("Fot. Grafika komputerowa przedstawiająca start Starship. Zródło: Wikipedia");
+					labelImg.setIcon(img);
 					break;
 
 				case "Saturn V":
@@ -120,6 +127,9 @@ public class ButtonPanel extends JPanel {
 									+ "spalanie na Ziemii=13 000 kg/s, na Marsie=35 000 kg/s, "
 									+ "prędkość gazów wylotowych na Ziemii=2580 m/s, na Marsie=970 m/s. ",
 							10, 40);
+					img = new ImageIcon(this.getClass().getResource("/saturnv.jpg"));
+					label = new JLabel("Fot. Saturn V podczas misji Apollo 11. Zródło: Wikipedia");
+					labelImg.setIcon(img);
 					break;
 				}
 				panelText.add(opis);
@@ -131,16 +141,13 @@ public class ButtonPanel extends JPanel {
 
 				panelImg.setLayout(new GridBagLayout());
 				GridBagConstraints c = new GridBagConstraints();
-
-				labelImg = new JLabel("");
-				img = new ImageIcon(this.getClass().getResource("/Starship.jpg"));
-				labelImg.setIcon(img);
+				
 				c.fill = GridBagConstraints.HORIZONTAL;
 				c.gridx = 1;
 				c.gridy = 0;
 				panelImg.add(labelImg, c);
 
-				label = new JLabel("Fot. Grafika komputerowa przedstawiająca start Starship. Zródło: Wikipedia");
+				
 				c.fill = GridBagConstraints.HORIZONTAL;
 				c.weightx = 0.0;
 				c.gridwidth = 3;
