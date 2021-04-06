@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +9,7 @@ import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -15,12 +17,13 @@ public class FuelPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	public float vgz, vgm, ngz, ngm, masaRakiety;
+	public float predkoscValue, czasValue, paliwoValue;
 	public JButton start;
 	public JButton reset;
 	public JLabel predkosc;
 	public JLabel czas;
 	public JLabel paliwo;
-	public JTextField wskaznikPaliwa;// to ma być progress bar
+	public JProgressBar wskaznikPaliwa;// to ma być progress bar
 	public RakietaComboBoxListener panel;
 
 	public FuelPanel(float vgz) { //probowalam przekazac wartosc w konstruktorze ale to tez nie pomaga, kombinowalam tezz w main ale bez skutku im dumb
@@ -41,10 +44,13 @@ public class FuelPanel extends JPanel {
 		start.addActionListener(start_l);
 
 		reset = new JButton("Reset");
-		predkosc = new JLabel("Prędkość:");
-		czas = new JLabel("Czas:");
-		paliwo = new JLabel("Zostało paliwa: ");
-		wskaznikPaliwa = new JTextField("to będzie progress bar");
+		predkosc = new JLabel();
+		czas = new JLabel();
+		paliwo = new JLabel();
+		updateLabels();
+		wskaznikPaliwa = new JProgressBar(0, 10);
+		wskaznikPaliwa.setValue(6);
+		wskaznikPaliwa.setForeground(Color.YELLOW);
 
 		layout.setHorizontalGroup(layout.createSequentialGroup()
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(wskaznikPaliwa)
@@ -81,6 +87,20 @@ public class FuelPanel extends JPanel {
 //nie wykorzystuje tej metody
 	public float set(float vgz) {
 		return this.vgz = vgz;
+	}
+	
+	public void resetValues() {
+		wskaznikPaliwa.setValue(wskaznikPaliwa.getMaximum());
+		predkoscValue = 0;
+		czasValue = 0;
+		paliwoValue = 0;	
+		updateLabels();
+	}
+	
+	private void updateLabels() {
+		predkosc.setText("Prędkość: " + predkoscValue + " km/h");
+		czas.setText("Czas: " + czasValue + " h");
+		paliwo.setText("Zostało paliwa: " + paliwoValue + " kg");
 	}
 
 }

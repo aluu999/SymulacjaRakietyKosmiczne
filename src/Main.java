@@ -2,6 +2,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -37,8 +40,17 @@ public class Main extends JFrame {
 		panel1.setBackground(Color.black); // to tylko do pomocy dla mnie, potem to usunê
 		panel2.setBackground(Color.blue);
 		panel3.setBackground(Color.green);
+		
+		panel3.reset.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				panel2.resetValues();
+				panel3.resetValues();
+			}
+		});
 
 	}
+	
 
 	public Main(GraphicsConfiguration gc) {
 		super(gc);

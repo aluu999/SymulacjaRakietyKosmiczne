@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -8,6 +9,13 @@ import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -20,17 +28,20 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
 
 public class ButtonPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	public JTextField text;
+	public JTextField masaPaliwa;
 	public JButton info;
 	public JButton wykres;
-	public JComboBox<Object> wyborRakiety;
+	public JComboBox<String> wyborRakiety;
 	public JLabel wR;
-	public JComboBox<Object> wyborPlanety;
+	public JComboBox<String> wyborPlanety;
 	public JLabel wP, dane, labelImg, label;
 	public JTextArea opis;
 	public JDialog okno;
@@ -47,29 +58,75 @@ public class ButtonPanel extends JPanel {
 		wR = new JLabel("Wybór rakiety:");
 		wR.setAlignmentX(Component.CENTER_ALIGNMENT); // wycentrowanie komponentu
 		this.add(wR);
+
 		String[] listaRakiet = { "Big Falcon Rocket", "Saturn V" };
-		wyborRakiety = new JComboBox<Object>(listaRakiet);
+
+		wyborRakiety = new JComboBox<String>(listaRakiet) {
+			private static final long serialVersionUID = 4474251794694691405L;
+
+			@Override
+			public Object getSelectedItem() {
+				Object selected = super.getSelectedItem();
+
+				if (selected == null)
+					selected = "Wybierz rakiete...";
+
+				return selected;
+			}
+		};
+
+		wyborRakiety.setSelectedIndex(-1); // Początkowo żadna rakieta nie powinna być wybrana
 		wyborRakiety.setMaximumSize(wyborRakiety.getPreferredSize()); // zmiana rozmiaru comboboxa
 		this.add(wyborRakiety);
 		wyborRakiety.addItemListener(new RakietaComboBoxListener());
-		///pamietac, ze jezeli uzytkownik nie kliknie na jcomboboxa, trzeba ustawic domyslnie dane na rakiete big falcon rocket
-		///ewentualnie zmienic jcomboboxa i dac pierwszy item "wybor rakiety", wtedy uzytkownik zawsze bedzie klikal na liste->uruchamial listener
-		
-		
+
 		this.add(Box.createRigidArea(new Dimension(0, 10))); // utworzenie wolnej przestrzeni miedzy komponentaami
 
-		text = new JTextField("Masa paliwa [kg]");
-		text.setMaximumSize(text.getPreferredSize());
-		this.add(text);
-		//mass=Double.parseDouble(text.getText());
+		masaPaliwa = new JTextField("Masa paliwa [kg]");// Utworzyć oddzielną klase dla masaPaliwa
+		masaPaliwa.setForeground(Color.GRAY);
+		masaPaliwa.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				if (masaPaliwa.getText().equals("Masa paliwa [kg]")) {
+					masaPaliwa.setText("");
+					masaPaliwa.setForeground(Color.BLACK);
+				}
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (masaPaliwa.getText().isEmpty()) {
+					masaPaliwa.setForeground(Color.GRAY);
+					masaPaliwa.setText("Masa paliwa [kg]");
+				}
+			}
+		});
+		
+		masaPaliwa.setMaximumSize(masaPaliwa.getPreferredSize());
+		this.add(masaPaliwa);
+		// mass=Double.parseDouble(text.getText());
 		this.add(Box.createRigidArea(new Dimension(0, 10)));
 
 		wP = new JLabel("Wybór planety:");
 		wP.setAlignmentX(Component.CENTER_ALIGNMENT);
 		this.add(wP);
 		String[] listaPlanet = { "Ziemia", "Mars" };
-		wyborPlanety = new JComboBox<Object>(listaPlanet);
-		wyborPlanety.setMaximumSize(wyborPlanety.getPreferredSize());
+		wyborPlanety = new JComboBox<String>(listaPlanet) {
+			private static final long serialVersionUID = -4975694802896302862L;
+
+			@Override
+			public Object getSelectedItem() {
+				Object selected = super.getSelectedItem();
+
+				if (selected == null)
+					selected = "Wybierz planete...";
+
+				return selected;
+			}
+		};
+		wyborPlanety.setSelectedIndex(-1);
+		wyborPlanety.setMaximumSize(wyborRakiety.getPreferredSize());
+
 		this.add(wyborPlanety);
 
 		this.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -141,13 +198,12 @@ public class ButtonPanel extends JPanel {
 
 				panelImg.setLayout(new GridBagLayout());
 				GridBagConstraints c = new GridBagConstraints();
-				
+
 				c.fill = GridBagConstraints.HORIZONTAL;
 				c.gridx = 1;
 				c.gridy = 0;
 				panelImg.add(labelImg, c);
 
-				
 				c.fill = GridBagConstraints.HORIZONTAL;
 				c.weightx = 0.0;
 				c.gridwidth = 3;
@@ -158,7 +214,7 @@ public class ButtonPanel extends JPanel {
 				okno.setVisible(true);
 			}
 		};
-		
+
 		info.addActionListener(info_l);
 		this.add(info);
 
@@ -183,5 +239,11 @@ public class ButtonPanel extends JPanel {
 		super(layout, isDoubleBuffered);
 
 	}
-	
+
+	public void resetValues() {
+		wyborPlanety.setSelectedIndex(-1);
+		wyborRakiety.setSelectedIndex(-1);
+		masaPaliwa.setText("Masa paliwa [kg]");
+	}
+
 }
