@@ -23,10 +23,10 @@ public class FuelPanel extends JPanel {
 	public JLabel predkosc;
 	public JLabel czas;
 	public JLabel paliwo;
-	public JProgressBar wskaznikPaliwa;// to ma być progress bar
+	public JProgressBar wskaznikPaliwa;
 	public RakietaComboBoxListener panel;
 
-	public FuelPanel(float vgz) { //probowalam przekazac wartosc w konstruktorze ale to tez nie pomaga, kombinowalam tezz w main ale bez skutku im dumb
+	public FuelPanel(float vgz) { 
 
 		panel = new RakietaComboBoxListener(); //tworze sobie obiekt klasy
 		GroupLayout layout = new GroupLayout(this);
