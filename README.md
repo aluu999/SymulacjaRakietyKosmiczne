@@ -1,5 +1,1 @@
-# SymulacjaRakietyKosmiczne
-projekcik okkk
-aaalaksjdhfgfjkdsdjbghfjdkslwkdjfhbgfjdkslaskmndv nmckdls;wqlwkenfb
-k
-tutaj weroooo
+w naszym projekcie uwzględnimy równanie Mieszczerskiego. Dzięki niemu będziemy mieć możliwość wyznaczenia prędkości od czasu, kiedy zmianie ulega masa rakiety (utrata paliwa). W równych odstępach czasu będziemy wyświetlać zużycie paliwa i osiągniętą prędkość (dodatkowo zależność tą można byłoby przedstawić na wykresie). Do wyboru będzie również rodzaj rakiety oraz masa paliwa. Na podstawie wzoru będziemy mogli stwierdzić, czy paliwa starczyło, by osiągnąć daną prędkość kosmiczną.
