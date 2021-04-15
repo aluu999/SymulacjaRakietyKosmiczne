@@ -24,11 +24,8 @@ public class FuelPanel extends JPanel {
 	public JLabel czas;
 	public JLabel paliwo;
 	public JProgressBar wskaznikPaliwa;// to ma być progress bar
-	public RakietaComboBoxListener panel;
-
-	public FuelPanel(float vgz) { //probowalam przekazac wartosc w konstruktorze ale to tez nie pomaga, kombinowalam tezz w main ale bez skutku im dumb
-
-		panel = new RakietaComboBoxListener(); //tworze sobie obiekt klasy
+	
+	public FuelPanel() { 
 		GroupLayout layout = new GroupLayout(this);
 		this.setLayout(layout);
 		layout.setAutoCreateGaps(true);
@@ -38,7 +35,6 @@ public class FuelPanel extends JPanel {
 		ActionListener start_l = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg) {
-				System.out.println(panel.get()); //w listenerze wylapuje tylko zero zamiast naszej wartosci z innej klasy
 			}
 		};
 		start.addActionListener(start_l);
@@ -83,10 +79,6 @@ public class FuelPanel extends JPanel {
 
 	public FuelPanel(LayoutManager layout, boolean isDoubleBuffered) {
 		super(layout, isDoubleBuffered);
-	}
-//nie wykorzystuje tej metody
-	public float set(float vgz) {
-		return this.vgz = vgz;
 	}
 	
 	public void resetValues() {
