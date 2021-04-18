@@ -3,14 +3,14 @@ import java.awt.Color;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
+
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.JTextField;
+
 import javax.swing.SwingConstants;
 
 public class FuelPanel extends JPanel {
@@ -26,9 +26,8 @@ public class FuelPanel extends JPanel {
 	public JProgressBar wskaznikPaliwa;
 	public RakietaComboBoxListener panel;
 
-	public FuelPanel(float vgz) { 
 
-		panel = new RakietaComboBoxListener(); //tworze sobie obiekt klasy
+	public FuelPanel() { 
 		GroupLayout layout = new GroupLayout(this);
 		this.setLayout(layout);
 		layout.setAutoCreateGaps(true);
@@ -38,7 +37,6 @@ public class FuelPanel extends JPanel {
 		ActionListener start_l = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg) {
-				System.out.println(panel.get()); //w listenerze wylapuje tylko zero zamiast naszej wartosci z innej klasy
 			}
 		};
 		start.addActionListener(start_l);
@@ -83,10 +81,6 @@ public class FuelPanel extends JPanel {
 
 	public FuelPanel(LayoutManager layout, boolean isDoubleBuffered) {
 		super(layout, isDoubleBuffered);
-	}
-//nie wykorzystuje tej metody
-	public float set(float vgz) {
-		return this.vgz = vgz;
 	}
 	
 	public void resetValues() {

@@ -1,14 +1,10 @@
-import java.awt.Color;
+
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import javax.swing.JPanel;
+
 
 public class RakietaComboBoxListener implements ItemListener {
-
-	JPanel p;
-	public FuelPanel fPanel;
-	public float vgz;
 
 	public RakietaComboBoxListener() {
 
@@ -20,18 +16,12 @@ public class RakietaComboBoxListener implements ItemListener {
 			String rakieta = (String) arg0.getItem();
 			switch (rakieta) {
 			case "Big Falcon Rocket":
-				// chcemy przeniesc predkosci i spalanie do klasy FuelPanel
-				vgz = 300;
-				fPanel = new FuelPanel(vgz);
-				get();
+				BigFalconRocket bfr = new BigFalconRocket();
 				break;
 			case "Saturn V":
+				SatrunV sv=new SatrunV();
 				break;
 			}
 		}
-	}
-	public float get() {
-		//System.out.println(vgz); //tutaj dochodzi poprawnie
-		return vgz;
 	}
 }

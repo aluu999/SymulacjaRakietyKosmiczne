@@ -33,7 +33,7 @@ public class Main extends JFrame {
 		this.add(panel2, BorderLayout.LINE_END);
 
 		panel = new RakietaComboBoxListener();
-		panel3 = new FuelPanel(9);
+		panel3 = new FuelPanel();
 
 		this.add(panel3, BorderLayout.PAGE_END);
 

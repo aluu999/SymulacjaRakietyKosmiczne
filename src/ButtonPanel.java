@@ -11,11 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -28,10 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DocumentFilter;
+
 
 public class ButtonPanel extends JPanel {
 
@@ -48,17 +41,15 @@ public class ButtonPanel extends JPanel {
 	public JPanel panelImg, panelText;
 	public GridBagConstraints c, d;
 	public ImageIcon img;
-	public double mass;
+	public Wykres chart;
 
 	public ButtonPanel() {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		// ustalenie odstepow od granicy panelu
-
 		wR = new JLabel("Wybór rakiety:");
 		wR.setAlignmentX(Component.CENTER_ALIGNMENT); // wycentrowanie komponentu
 		this.add(wR);
-
 		String[] listaRakiet = { "Big Falcon Rocket", "Saturn V" };
 
 		wyborRakiety = new JComboBox<String>(listaRakiet) {
@@ -76,13 +67,11 @@ public class ButtonPanel extends JPanel {
 		};
 
 		wyborRakiety.setSelectedIndex(-1); // Początkowo żadna rakieta nie powinna być wybrana
-		wyborRakiety.setMaximumSize(wyborRakiety.getPreferredSize()); // zmiana rozmiaru comboboxa
 		this.add(wyborRakiety);
 		wyborRakiety.addItemListener(new RakietaComboBoxListener());
-
 		this.add(Box.createRigidArea(new Dimension(0, 10))); // utworzenie wolnej przestrzeni miedzy komponentaami
-
 		masaPaliwa = new JTextField("Masa paliwa [kg]");// Utworzyć oddzielną klase dla masaPaliwa
+
 		masaPaliwa.setForeground(Color.GRAY);
 		masaPaliwa.addFocusListener(new FocusListener() {
 			@Override
@@ -101,12 +90,8 @@ public class ButtonPanel extends JPanel {
 				}
 			}
 		});
-		
-		masaPaliwa.setMaximumSize(masaPaliwa.getPreferredSize());
 		this.add(masaPaliwa);
-		// mass=Double.parseDouble(text.getText());
 		this.add(Box.createRigidArea(new Dimension(0, 10)));
-
 		wP = new JLabel("Wybór planety:");
 		wP.setAlignmentX(Component.CENTER_ALIGNMENT);
 		this.add(wP);
@@ -125,12 +110,8 @@ public class ButtonPanel extends JPanel {
 			}
 		};
 		wyborPlanety.setSelectedIndex(-1);
-		wyborPlanety.setMaximumSize(wyborRakiety.getPreferredSize());
-
 		this.add(wyborPlanety);
-
 		this.add(Box.createRigidArea(new Dimension(0, 10)));
-
 		info = new JButton("Informacje o rakiecie");
 		info.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -223,6 +204,21 @@ public class ButtonPanel extends JPanel {
 		wykres = new JButton("Wykres");
 		wykres.setAlignmentX(Component.CENTER_ALIGNMENT);
 		this.add(wykres);
+
+		ActionListener wykres_l = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg) {
+				chart = new Wykres();
+			}
+		};
+		wykres.addActionListener(wykres_l);
+
+		Dimension d = info.getMaximumSize();
+		wyborRakiety.setMaximumSize(d);
+		wyborPlanety.setMaximumSize(d);
+		wykres.setMaximumSize(d);
+		masaPaliwa.setMaximumSize(d);
+
 	}
 
 	public ButtonPanel(LayoutManager layout) {
