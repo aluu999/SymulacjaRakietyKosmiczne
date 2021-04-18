@@ -46,9 +46,8 @@ public class ButtonPanel extends JPanel {
 	public ButtonPanel() {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		// ustalenie odstepow od granicy panelu
 		wR = new JLabel("Wybór rakiety:");
-		wR.setAlignmentX(Component.CENTER_ALIGNMENT); // wycentrowanie komponentu
+		wR.setAlignmentX(Component.CENTER_ALIGNMENT); 
 		this.add(wR);
 		String[] listaRakiet = { "Big Falcon Rocket", "Saturn V" };
 
@@ -71,9 +70,13 @@ public class ButtonPanel extends JPanel {
 		wyborRakiety.addItemListener(new RakietaComboBoxListener());
 		this.add(Box.createRigidArea(new Dimension(0, 10))); // utworzenie wolnej przestrzeni miedzy komponentaami
 		masaPaliwa = new JTextField("Masa paliwa [kg]");// Utworzyć oddzielną klase dla masaPaliwa
-
+		
+		//jak pobieramy sobie treść z tego jtexfieldu aby zamienić to na inta w funkcji getMasaPaliwa() - parseInt
+		//to nie może zamienić nam pola które jest automatycznie uzupełnione, nie bierze wpisanej przez nas wartości
+		//nawet jak nie puste bez "Masa paliwa [kg]"
+		
 		masaPaliwa.setForeground(Color.GRAY);
-		masaPaliwa.addFocusListener(new FocusListener() {
+		/*masaPaliwa.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent e) {
 				if (masaPaliwa.getText().equals("Masa paliwa [kg]")) {
@@ -89,7 +92,7 @@ public class ButtonPanel extends JPanel {
 					masaPaliwa.setText("Masa paliwa [kg]");
 				}
 			}
-		});
+		});*/
 		this.add(masaPaliwa);
 		this.add(Box.createRigidArea(new Dimension(0, 10)));
 		wP = new JLabel("Wybór planety:");
@@ -240,6 +243,11 @@ public class ButtonPanel extends JPanel {
 		wyborPlanety.setSelectedIndex(-1);
 		wyborRakiety.setSelectedIndex(-1);
 		masaPaliwa.setText("Masa paliwa [kg]");
+	}
+	
+	public int getMasaPaliwa(){
+		int x = Integer.parseInt(masaPaliwa.getText());
+		return x;
 	}
 
 }

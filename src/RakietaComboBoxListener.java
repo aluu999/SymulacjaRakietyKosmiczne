@@ -19,7 +19,7 @@ public class RakietaComboBoxListener implements ItemListener {
 				BigFalconRocket bfr = new BigFalconRocket();
 				break;
 			case "Saturn V":
-				SatrunV sv=new SatrunV();
+				SaturnV sv=new SaturnV();
 				break;
 			}
 		}
