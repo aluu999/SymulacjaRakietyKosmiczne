@@ -26,10 +26,7 @@ public class FuelPanel extends JPanel {
 	public JProgressBar wskaznikPaliwa;
 	public RakietaComboBoxListener panel;
 
-	//public FuelPanel(float vgz) { 
 
-	//panel = new RakietaComboBoxListener(); //tworze sobie obiekt klasy
-	
 	public FuelPanel() { 
 		GroupLayout layout = new GroupLayout(this);
 		this.setLayout(layout);
