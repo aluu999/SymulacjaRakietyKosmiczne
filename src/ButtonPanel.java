@@ -76,7 +76,7 @@ public class ButtonPanel extends JPanel {
 		//nawet jak nie puste bez "Masa paliwa [kg]"
 		
 		masaPaliwa.setForeground(Color.GRAY);
-		/*masaPaliwa.addFocusListener(new FocusListener() {
+		masaPaliwa.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent e) {
 				if (masaPaliwa.getText().equals("Masa paliwa [kg]")) {
@@ -92,7 +92,7 @@ public class ButtonPanel extends JPanel {
 					masaPaliwa.setText("Masa paliwa [kg]");
 				}
 			}
-		});*/
+		});
 		this.add(masaPaliwa);
 		this.add(Box.createRigidArea(new Dimension(0, 10)));
 		wP = new JLabel("Wybór planety:");

@@ -45,8 +45,9 @@ public class Main extends JFrame {
 		panel = new RakietaComboBoxListener();
 		panel3 = new FuelPanel();
 		
-		panel3.x = panel2.getMasaPaliwa();
-		//panel3.wskaznikPaliwa.setMaximum(panel2.getMasaPaliwa());
+		
+		
+		
 
 		this.add(panel3, BorderLayout.PAGE_END);
 
@@ -66,6 +67,7 @@ public class Main extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (true) {
+					panel3.wskaznikPaliwa.setMaximum(panel2.getMasaPaliwa());
 					ObliczeniaProgressBar();
 					// funkcja obliczania prêdkoœci
 					// ewentualna funkcja uruchomienia animacji
@@ -132,8 +134,8 @@ public class Main extends JFrame {
 						break;
 						
 					case ("Mars"):
-						if (panel2.getMasaPaliwa() > saturnV.ngm) {
-							wsk = panel2.getMasaPaliwa() - (saturnV.ngm * i);
+						if (poczatkowaMasa > saturnV.ngm) {
+							poczatkowaMasa = poczatkowaMasa - (saturnV.ngm * i);
 						} else {
 							JOptionPane.showMessageDialog(null, "Zbyt ma³a masa pliwa", "Anulowano",
 									JOptionPane.WARNING_MESSAGE);
@@ -147,8 +149,8 @@ public class Main extends JFrame {
 					switch (planeta) {
 					
 					case ("Ziemia"):
-						if (panel2.getMasaPaliwa() > BFR.ngz) {
-							wsk = panel2.getMasaPaliwa() - (BFR.ngz * i);
+						if (poczatkowaMasa > BFR.ngz) {
+							poczatkowaMasa = poczatkowaMasa - (BFR.ngz * i);
 						} else {
 							JOptionPane.showMessageDialog(null, "Zbyt ma³a masa pliwa", "Anulowano",
 									JOptionPane.WARNING_MESSAGE);
@@ -156,8 +158,8 @@ public class Main extends JFrame {
 						break;
 						
 					case ("Mars"):
-						if (panel2.getMasaPaliwa() > BFR.ngm) {
-							wsk = panel2.getMasaPaliwa() - (BFR.ngm * i);
+						if (poczatkowaMasa > BFR.ngm) {
+							poczatkowaMasa = poczatkowaMasa - (BFR.ngm * i);
 
 						} else {
 							JOptionPane.showMessageDialog(null, "Zbyt ma³a masa pliwa", "Anulowano",
@@ -181,7 +183,7 @@ public class Main extends JFrame {
 				
 
 			}
-		}), 0, 100, TimeUnit.MILLISECONDS);
+		}), 0, 1, TimeUnit.SECONDS);
 
 	}
 
