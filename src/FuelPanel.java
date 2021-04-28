@@ -1,6 +1,3 @@
-
-
-
 import java.awt.Color;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
@@ -94,11 +91,13 @@ public class FuelPanel extends JPanel {
 		updateLabels();
 	}
 	
-	private void updateLabels() {
-		predkosc.setText("Prędkość: " + predkoscValue + " km/h");
-		czas.setText("Czas: " + czasValue + " h");
+	void updateLabels() {
+		predkosc.setText("Prędkość: " + predkoscValue + " m/s");
+		czas.setText("Czas: " + czasValue + " s");
 		paliwo.setText("Zostało paliwa: " + paliwoValue + " kg");
 	}
+	
+	
 	
 	
 
