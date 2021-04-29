@@ -31,12 +31,13 @@ public class Main extends JFrame {
 	public double predkosc;
 	static double gz = 9.8;
 	static double gm = 3.7;
+	boolean isRunning;
 
 	public Main() throws HeadlessException {
 		this.setSize(640, 480);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setLayout(new BorderLayout());
-
+		isRunning = false;
 		saturnV = new SaturnV();
 		BFR = new BigFalconRocket();
 
@@ -65,12 +66,15 @@ public class Main extends JFrame {
 		panel3.start.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (true) {
+				if (!isRunning) {
 					panel3.wskaznikPaliwa.setMaximum(panel2.getMasaPaliwa());
 					ObliczeniaProgressBar();
 					// funkcja obliczania prêdkoœci
 					// ewentualna funkcja uruchomienia animacji
-
+					isRunning = true;
+				}
+				else {
+					
 				}
 			}
 		});
@@ -140,7 +144,7 @@ public class Main extends JFrame {
 						} else {
 							JOptionPane.showMessageDialog(null, "Zbyt mała masa paliwa", "Anulowano",
 									JOptionPane.WARNING_MESSAGE);
-
+									scheduler.shutdownNow();
 							// jak zakonczyæ w¹tek?!?!!!?!?!?!?!?!
 							// czy tu powinno byæ jakieœ wyjœcie z runa?
 						}
@@ -203,13 +207,20 @@ public class Main extends JFrame {
 					case ("Mars"):
 						if (poczatkowaMasa > BFR.ngm) {
 							pozostalaMasa = poczatkowaMasa - (BFR.ngm * i);
-							predkosc = (BFR.vgm * Math.log(masaCalkowita / (masaCalkowita - ((double) BFR.ngm * i))))
-									- (gm * i);
+							predkosc = (BFR.vgm * Math.log(masaCalkowita / (masaCalkowita - ((double) BFR.ngm * 0.1*i))))
+									- (gm * 0.1*i);
 							panel3.predkoscValue = (float) predkosc;
 							panel3.czasValue = i;
 							panel3.paliwoValue = pozostalaMasa;
+							panel3.wskaznikPaliwa.setValue(pozostalaMasa);
 							panel3.updateLabels();
+							i = i + 1;
+							if( pozostalaMasa<=0) {
+								JOptionPane.showMessageDialog(null, "Zbyt mała masa paliwa", "Anulowano",
+										JOptionPane.WARNING_MESSAGE);
+								scheduler.shutdownNow();
 
+							}
 							if (predkosc >= 3600) {
 								JOptionPane.showMessageDialog(null,
 										"Pierwsza prędkość kosmiczna! Wyniesiono rakietę na orbitę!");
@@ -226,7 +237,7 @@ public class Main extends JFrame {
 					}
 					break;
 				}
-
+				/*
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
@@ -235,7 +246,7 @@ public class Main extends JFrame {
 					}
 
 				});
-
+				*/
 			}
 		}), 0, 1, TimeUnit.SECONDS);
 
