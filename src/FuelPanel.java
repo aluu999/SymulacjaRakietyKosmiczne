@@ -2,20 +2,17 @@ import java.awt.Color;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-
 import javax.swing.SwingConstants;
 
 public class FuelPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	public float predkoscValue, czasValue, paliwoValue;
+	public double predkoscValue, czasValue, paliwoValue;
 	public JButton start;
 	public JButton reset;
 	public JLabel predkosc;
@@ -46,8 +43,7 @@ public class FuelPanel extends JPanel {
 		paliwo = new JLabel();
 		updateLabels();
 		
-		wskaznikPaliwa = new JProgressBar(0, x); 
-		//wskaznikPaliwa.setValue(6);
+		wskaznikPaliwa = new JProgressBar(0, x);
 		wskaznikPaliwa.setForeground(Color.YELLOW);
 
 		layout.setHorizontalGroup(layout.createSequentialGroup()
@@ -96,9 +92,5 @@ public class FuelPanel extends JPanel {
 		czas.setText("Czas: " + czasValue + " s");
 		paliwo.setText("Zostało paliwa: " + paliwoValue + " kg");
 	}
-	
-	
-	
-	
 
 }

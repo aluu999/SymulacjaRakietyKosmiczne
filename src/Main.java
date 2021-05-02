@@ -7,11 +7,8 @@ import java.awt.event.ActionListener;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 public class Main extends JFrame {
 
@@ -19,19 +16,15 @@ public class Main extends JFrame {
 	public JPanel panel1;
 	public ButtonPanel panel2;
 	public FuelPanel panel3;
-	public float vgz;
+	public Obliczenia obliczenia;
 	public RakietaComboBoxListener panel;
 	public SaturnV saturnV;
 	public BigFalconRocket BFR;
-	public int wsk;
-	public int i = 0;
-	public int poczatkowaMasa;
-	public int pozostalaMasa;
-	public double masaCalkowita;
-	public double predkosc;
+	public int i, k;
+	public double poczatkowaMasa;
 	static double gz = 9.8;
 	static double gm = 3.7;
-	boolean isRunning;
+	boolean isRunning; // domyslnie jest false
 
 	public Main() throws HeadlessException {
 		this.setSize(640, 480);
@@ -58,6 +51,7 @@ public class Main extends JFrame {
 		panel3.reset.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				isRunning = false;
 				panel2.resetValues();
 				panel3.resetValues();
 			}
@@ -66,16 +60,14 @@ public class Main extends JFrame {
 		panel3.start.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (!isRunning) {
-					panel3.wskaznikPaliwa.setMaximum(panel2.getMasaPaliwa());
-					ObliczeniaProgressBar();
-					// funkcja obliczania prêdkoœci
-					// ewentualna funkcja uruchomienia animacji
-					isRunning = true;
-				}
-				else {
-					
-				}
+				isRunning = true;
+				//k++;
+				i=0; //jezeli klikam start, liczy od poczatku
+				panel3.wskaznikPaliwa.setMaximum(panel2.getMasaPaliwa());
+				ObliczeniaProgressBar();
+				
+				
+				// ewentualna funkcja uruchomienia animacji
 			}
 		});
 
@@ -111,142 +103,45 @@ public class Main extends JFrame {
 
 			@Override
 			public void run() {
-
+				obliczenia = new Obliczenia();
+				obliczenia.przerwijWatek(scheduler, isRunning); //przerywanie watku do reseta
+			
+				//obliczenia.sprawdzParzystosc(scheduler, k); //to mialo byc do "stop"
+				
 				String rakieta = (String) panel2.wyborRakiety.getSelectedItem();
 				String planeta = (String) panel2.wyborPlanety.getSelectedItem();
 				poczatkowaMasa = panel2.getMasaPaliwa();
 
 				switch (rakieta) {
 				case ("Saturn V"):
-					masaCalkowita = saturnV.masaRakiety + poczatkowaMasa;
 					switch (planeta) {
-
 					case ("Ziemia"):
-
-						if (poczatkowaMasa > saturnV.ngz) {
-							pozostalaMasa = poczatkowaMasa - (saturnV.ngz * i);
-
-							predkosc = (saturnV.vgz
-									* Math.log(masaCalkowita / (masaCalkowita - ((double) saturnV.ngz * i))))
-									- (gz * i);
-							panel3.predkoscValue = (float) predkosc;
-							panel3.czasValue = i;
-							panel3.paliwoValue = pozostalaMasa;
-							panel3.updateLabels();
-							if (predkosc >= 7900) {
-								JOptionPane.showMessageDialog(null,
-										"Pierwsza prędkość kosmiczna! Wyniesiono rakietę na orbitę!");
-							} // trzeba będzie zabezpieczyć zeby ta wiadomosc pojawiala sie tylko raz a nie w
-								// petli
-							if (predkosc >= 11200) {
-								JOptionPane.showMessageDialog(null, "Osiągnięto prędkość ucieczki!");
-							}
-						} else {
-							JOptionPane.showMessageDialog(null, "Zbyt mała masa paliwa", "Anulowano",
-									JOptionPane.WARNING_MESSAGE);
-									scheduler.shutdownNow();
-							// jak zakonczyæ w¹tek?!?!!!?!?!?!?!?!
-							// czy tu powinno byæ jakieœ wyjœcie z runa?
-						}
-
+						obliczenia.oblicz(poczatkowaMasa, saturnV.masaRakiety, saturnV.ngz, saturnV.vgz, gz, scheduler,
+								7900, 11200, i, isRunning, k,panel3);
+						i = i + 10;
 						break;
-
 					case ("Mars"):
-
-						if (poczatkowaMasa > saturnV.ngm) {
-							pozostalaMasa = poczatkowaMasa - (saturnV.ngm * i);
-							predkosc = (saturnV.vgm
-									* Math.log(masaCalkowita / (masaCalkowita - ((double) saturnV.ngm * i))))
-									- (gm * i);
-							panel3.predkoscValue = (float) predkosc;
-							panel3.czasValue = i;
-							panel3.paliwoValue = pozostalaMasa;
-							panel3.updateLabels();
-							if (predkosc >= 3600) {
-								JOptionPane.showMessageDialog(null,
-										"Pierwsza prędkość kosmiczna! Wyniesiono rakietę na orbitę!");
-							}
-							if (predkosc >= 5000) {
-								JOptionPane.showMessageDialog(null, "Osiągnięto prędkość ucieczki!");
-							}
-						} else {
-							JOptionPane.showMessageDialog(null, "Zbyt mała masa paliwa", "Anulowano",
-									JOptionPane.WARNING_MESSAGE);
-						}
+						obliczenia.oblicz(poczatkowaMasa, saturnV.masaRakiety, saturnV.ngm, saturnV.vgm, gm, scheduler,
+								3600, 5000, i, isRunning, k,panel3);
+						i = i + 10;
 						break;
 					}
-
 					break;
 				case ("Big Falcon Rocket"):
-					masaCalkowita = BFR.masaRakiety + poczatkowaMasa;
 					switch (planeta) {
-
 					case ("Ziemia"):
-						if (poczatkowaMasa > BFR.ngz) {
-							pozostalaMasa = poczatkowaMasa - (BFR.ngz * i);
-							predkosc = (BFR.vgz * Math.log(masaCalkowita / (masaCalkowita - ((double) BFR.ngz * i))))
-									- (gz * i);
-							panel3.predkoscValue = (float) predkosc;
-							panel3.czasValue = i;
-							panel3.paliwoValue = pozostalaMasa;
-							panel3.updateLabels();
-
-							if (predkosc >= 7900) {
-								JOptionPane.showMessageDialog(null,
-										"Pierwsza prędkość kosmiczna! Wyniesiono rakietę na orbitę!");
-							}
-							if (predkosc >= 11200) {
-								JOptionPane.showMessageDialog(null, "Osiągnięto prędkość ucieczki!");
-							}
-						} else {
-							JOptionPane.showMessageDialog(null, "Zbyt mała masa paliwa", "Anulowano",
-									JOptionPane.WARNING_MESSAGE);
-						}
+						obliczenia.oblicz(poczatkowaMasa, BFR.masaRakiety, BFR.ngz, BFR.vgz, gz, scheduler, 7900, 11200,
+								i, isRunning, k,panel3);
+						i = i + 10;
 						break;
-
 					case ("Mars"):
-						if (poczatkowaMasa > BFR.ngm) {
-							pozostalaMasa = poczatkowaMasa - (BFR.ngm * i);
-							predkosc = (BFR.vgm * Math.log(masaCalkowita / (masaCalkowita - ((double) BFR.ngm * 0.1*i))))
-									- (gm * 0.1*i);
-							panel3.predkoscValue = (float) predkosc;
-							panel3.czasValue = i;
-							panel3.paliwoValue = pozostalaMasa;
-							panel3.wskaznikPaliwa.setValue(pozostalaMasa);
-							panel3.updateLabels();
-							i = i + 1;
-							if( pozostalaMasa<=0) {
-								JOptionPane.showMessageDialog(null, "Zbyt mała masa paliwa", "Anulowano",
-										JOptionPane.WARNING_MESSAGE);
-								scheduler.shutdownNow();
-
-							}
-							if (predkosc >= 3600) {
-								JOptionPane.showMessageDialog(null,
-										"Pierwsza prędkość kosmiczna! Wyniesiono rakietę na orbitę!");
-							}
-							if (predkosc >= 5000) {
-								JOptionPane.showMessageDialog(null, "Osiągnięto prędkość ucieczki!");
-							}
-
-						} else {
-							JOptionPane.showMessageDialog(null, "Zbyt mała masa paliwa", "Anulowano",
-									JOptionPane.WARNING_MESSAGE);
-						}
+						obliczenia.oblicz(poczatkowaMasa, BFR.masaRakiety, BFR.ngm, BFR.vgm, gm, scheduler, 3600, 5000,
+								i, isRunning, k,panel3);
+						i = i + 10;
 						break;
 					}
 					break;
 				}
-				/*
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						panel3.wskaznikPaliwa.setValue(pozostalaMasa);
-						i = i + 5;
-					}
-
-				});
-				*/
 			}
 		}), 0, 1, TimeUnit.SECONDS);
 
