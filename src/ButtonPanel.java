@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -19,10 +20,10 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
 
 public class ButtonPanel extends JPanel {
 
@@ -30,7 +31,7 @@ public class ButtonPanel extends JPanel {
 	public JTextField masaPaliwa;
 	public JButton info;
 	public JButton wykres;
-	public JComboBox<String> wyborRakiety;
+	public JComboBox<Rakieta> wyborRakiety;
 	public JLabel wR;
 	public JComboBox<String> wyborPlanety;
 	public JLabel wP, dane, labelImg, label;
@@ -45,11 +46,10 @@ public class ButtonPanel extends JPanel {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		wR = new JLabel("Wybór rakiety:");
-		wR.setAlignmentX(Component.CENTER_ALIGNMENT); 
+		wR.setAlignmentX(Component.CENTER_ALIGNMENT);
 		this.add(wR);
-		String[] listaRakiet = { "Big Falcon Rocket", "Saturn V" };
 
-		wyborRakiety = new JComboBox<String>(listaRakiet) {
+		wyborRakiety = new JComboBox<Rakieta>() {
 			private static final long serialVersionUID = 4474251794694691405L;
 
 			@Override
@@ -63,16 +63,14 @@ public class ButtonPanel extends JPanel {
 			}
 		};
 
-		wyborRakiety.setSelectedIndex(-1); // Początkowo żadna rakieta nie powinna być wybrana
+		wyborRakiety.addItem(new Rakieta("SaturnV", 2580, 13000, 970, 35000, 140000));
+		wyborRakiety.addItem(new Rakieta("Big Falcon Rocket", 3300, 900, 1240, 2400, 100000));
+
+		wyborRakiety.setSelectedIndex(-1);
 		this.add(wyborRakiety);
-		wyborRakiety.addItemListener(new RakietaComboBoxListener());
-		this.add(Box.createRigidArea(new Dimension(0, 10))); // utworzenie wolnej przestrzeni miedzy komponentaami
-		masaPaliwa = new JTextField("Masa paliwa [kg]");// Utworzyć oddzielną klase dla masaPaliwa
-		
-		//jak pobieramy sobie treść z tego jtexfieldu aby zamienić to na inta w funkcji getMasaPaliwa() - parseInt
-		//to nie może zamienić nam pola które jest automatycznie uzupełnione, nie bierze wpisanej przez nas wartości
-		//nawet jak nie puste bez "Masa paliwa [kg]"
-		
+		this.add(Box.createRigidArea(new Dimension(0, 10)));
+		masaPaliwa = new JTextField("Masa paliwa [kg]");
+
 		masaPaliwa.setForeground(Color.GRAY);
 		masaPaliwa.addFocusListener(new FocusListener() {
 			@Override
@@ -91,6 +89,7 @@ public class ButtonPanel extends JPanel {
 				}
 			}
 		});
+
 		this.add(masaPaliwa);
 		this.add(Box.createRigidArea(new Dimension(0, 10)));
 		wP = new JLabel("Wybór planety:");
@@ -119,13 +118,24 @@ public class ButtonPanel extends JPanel {
 		ActionListener info_l = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg) {
-				String item = (String) wyborRakiety.getSelectedItem();
+
+				if (wyborRakiety.getSelectedItem() == "Wybierz rakiete...") {
+					JOptionPane.showMessageDialog(null, "Nie wybrano rakiety", "Informacja",
+							JOptionPane.WARNING_MESSAGE);
+				}
+
+				Rakieta wybrana = (Rakieta) wyborRakiety.getSelectedItem();
+
+				String item = wybrana.getNazwaRakiety();
+
 				okno = new JDialog();
+				okno.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				panelImg = new JPanel();
 				okno.add(panelImg, BorderLayout.LINE_END);
 				panelText = new JPanel();
 				okno.add(panelText, BorderLayout.LINE_START);
 				labelImg = new JLabel("");
+
 				switch (item) {
 				case "Big Falcon Rocket":
 					dane = new JLabel("Big Falcon Rocket (Starship)");
@@ -151,8 +161,8 @@ public class ButtonPanel extends JPanel {
 					labelImg.setIcon(img);
 					break;
 
-				case "Saturn V":
-					dane = new JLabel("Saturn V");
+				case "SaturnV":
+					dane = new JLabel("SaturnV");
 					dane.setFont(new Font("Serif", Font.ITALIC, 30));
 					panelText.add(dane);
 					opis = new JTextArea(
@@ -171,6 +181,7 @@ public class ButtonPanel extends JPanel {
 					labelImg.setIcon(img);
 					break;
 				}
+
 				panelText.add(opis);
 				opis.setLineWrap(true);
 				opis.setWrapStyleWord(true);
@@ -194,6 +205,7 @@ public class ButtonPanel extends JPanel {
 				panelImg.add(label, c);
 				okno.setSize(900, 600);
 				okno.setVisible(true);
+
 			}
 		};
 
@@ -242,10 +254,12 @@ public class ButtonPanel extends JPanel {
 		wyborRakiety.setSelectedIndex(-1);
 		masaPaliwa.setText("Masa paliwa [kg]");
 	}
-	
-	public int getMasaPaliwa(){
+
+	public int getMasaPaliwa() {
+
 		int x = Integer.parseInt(masaPaliwa.getText());
 		return x;
+
 	}
 
 }

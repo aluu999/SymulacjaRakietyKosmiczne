@@ -19,7 +19,6 @@ public class FuelPanel extends JPanel {
 	public JLabel czas;
 	public JLabel paliwo;
 	public JProgressBar wskaznikPaliwa;
-	public RakietaComboBoxListener panel;
 	public int x;
 
 
@@ -28,7 +27,7 @@ public class FuelPanel extends JPanel {
 		this.setLayout(layout);
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
-		start = new JButton("Start/Stop");
+		start = new JButton("Start");
 
 		ActionListener start_l = new ActionListener() {
 			@Override

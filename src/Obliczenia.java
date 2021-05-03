@@ -25,7 +25,8 @@ public class Obliczenia {
 				panel.czasValue = j;
 				panel.paliwoValue = pozostalaMasa;
 				panel.updateLabels();
-
+				
+				
 				if (predkosc < 0) {
 					JOptionPane.showMessageDialog(null, "Rakieta jest zbyt ciężka, by się wznieść!", "Anulowano",
 							JOptionPane.WARNING_MESSAGE);
@@ -33,7 +34,7 @@ public class Obliczenia {
 				}
 
 				if (pozostalaMasa <= 0) {
-					JOptionPane.showMessageDialog(null, "Zbyt mała masa paliwa", "Anulowano",
+					JOptionPane.showMessageDialog(null, "Skończyło się paliwo", "Anulowano",
 							JOptionPane.WARNING_MESSAGE);
 					scheduler.shutdownNow();
 
@@ -45,16 +46,17 @@ public class Obliczenia {
 					JOptionPane.showMessageDialog(null, "Osiągnięto prędkość ucieczki!");
 				}
 			} else {
-				JOptionPane.showMessageDialog(null, "Skończyło się paliwo", "Anulowano", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Zbyt mała masa paliwa", "Anulowano", JOptionPane.WARNING_MESSAGE);
 				scheduler.shutdownNow();
 			}
-		}
+		}		
 
 	}
 
 	public void przerwijWatek(ScheduledExecutorService scheduler, boolean isRunning) {
 		if (isRunning == false) {
 			System.out.println("Reset, przerwano watek");
+			JOptionPane.showMessageDialog(null, "Zakończono i zresetowano");
 			scheduler.shutdownNow();
 		}
 	}

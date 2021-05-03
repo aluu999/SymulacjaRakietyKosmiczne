@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Main extends JFrame {
@@ -17,9 +18,6 @@ public class Main extends JFrame {
 	public ButtonPanel panel2;
 	public FuelPanel panel3;
 	public Obliczenia obliczenia;
-	public RakietaComboBoxListener panel;
-	public SaturnV saturnV;
-	public BigFalconRocket BFR;
 	public int i, k;
 	public double poczatkowaMasa;
 	static double gz = 9.8;
@@ -30,16 +28,14 @@ public class Main extends JFrame {
 		this.setSize(640, 480);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setLayout(new BorderLayout());
+
 		isRunning = false;
-		saturnV = new SaturnV();
-		BFR = new BigFalconRocket();
 
 		panel1 = new JPanel();
 		this.add(panel1, BorderLayout.CENTER);
 		panel2 = new ButtonPanel();
 		this.add(panel2, BorderLayout.LINE_END);
 
-		panel = new RakietaComboBoxListener();
 		panel3 = new FuelPanel();
 
 		this.add(panel3, BorderLayout.PAGE_END);
@@ -60,14 +56,23 @@ public class Main extends JFrame {
 		panel3.start.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				isRunning = true;
-				//k++;
-				i=0; //jezeli klikam start, liczy od poczatku
-				panel3.wskaznikPaliwa.setMaximum(panel2.getMasaPaliwa());
-				ObliczeniaProgressBar();
+
+				if (isRunning == false) {
+					if (panel2.wyborRakiety.getSelectedItem() == "Wybierz rakiete..."
+							|| panel2.wyborPlanety.getSelectedItem() == "Wybierz planete...") {
+						JOptionPane.showMessageDialog(null, "Nie wypełniono wymaganych pól", "Informacja",
+								JOptionPane.WARNING_MESSAGE);
+						return;
+					}
+					isRunning = true;
+					// k++;
+					i = 0; // jezeli klikam start, liczy od poczatku
+					panel3.wskaznikPaliwa.setMaximum(panel2.getMasaPaliwa());
+					ObliczeniaProgressBar();
+
+					// ewentualna funkcja uruchomienia animacji
+				}
 				
-				
-				// ewentualna funkcja uruchomienia animacji
 			}
 		});
 
@@ -103,45 +108,30 @@ public class Main extends JFrame {
 
 			@Override
 			public void run() {
+
 				obliczenia = new Obliczenia();
-				obliczenia.przerwijWatek(scheduler, isRunning); //przerywanie watku do reseta
-			
-				//obliczenia.sprawdzParzystosc(scheduler, k); //to mialo byc do "stop"
-				
-				String rakieta = (String) panel2.wyborRakiety.getSelectedItem();
+				obliczenia.przerwijWatek(scheduler, isRunning); // przerywanie watku do reseta
+
+				// obliczenia.sprawdzParzystosc(scheduler, k); //to mialo byc do "stop"
+
+				Rakieta wybranaRakieta = (Rakieta) panel2.wyborRakiety.getSelectedItem();
 				String planeta = (String) panel2.wyborPlanety.getSelectedItem();
+
 				poczatkowaMasa = panel2.getMasaPaliwa();
 
-				switch (rakieta) {
-				case ("Saturn V"):
-					switch (planeta) {
-					case ("Ziemia"):
-						obliczenia.oblicz(poczatkowaMasa, saturnV.masaRakiety, saturnV.ngz, saturnV.vgz, gz, scheduler,
-								7900, 11200, i, isRunning, k,panel3);
-						i = i + 10;
-						break;
-					case ("Mars"):
-						obliczenia.oblicz(poczatkowaMasa, saturnV.masaRakiety, saturnV.ngm, saturnV.vgm, gm, scheduler,
-								3600, 5000, i, isRunning, k,panel3);
-						i = i + 10;
-						break;
-					}
+				switch (planeta) {
+				case ("Ziemia"):
+					obliczenia.oblicz(poczatkowaMasa, wybranaRakieta.getMasaRakiety(), wybranaRakieta.getNGZ(),
+							wybranaRakieta.getVGZ(), gz, scheduler, 7900, 11200, i, isRunning, k, panel3);
+					i = i + 10;
 					break;
-				case ("Big Falcon Rocket"):
-					switch (planeta) {
-					case ("Ziemia"):
-						obliczenia.oblicz(poczatkowaMasa, BFR.masaRakiety, BFR.ngz, BFR.vgz, gz, scheduler, 7900, 11200,
-								i, isRunning, k,panel3);
-						i = i + 10;
-						break;
-					case ("Mars"):
-						obliczenia.oblicz(poczatkowaMasa, BFR.masaRakiety, BFR.ngm, BFR.vgm, gm, scheduler, 3600, 5000,
-								i, isRunning, k,panel3);
-						i = i + 10;
-						break;
-					}
+				case ("Mars"):
+					obliczenia.oblicz(poczatkowaMasa, wybranaRakieta.getMasaRakiety(), wybranaRakieta.getNGM(),
+							wybranaRakieta.getVGM(), gm, scheduler, 3600, 5000, i, isRunning, k, panel3);
+					i = i + 10;
 					break;
 				}
+
 			}
 		}), 0, 1, TimeUnit.SECONDS);
 
