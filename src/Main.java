@@ -18,7 +18,7 @@ public class Main extends JFrame {
 	public ButtonPanel panel2;
 	public FuelPanel panel3;
 	public Obliczenia obliczenia;
-	public int i, k;
+	public int i;
 	public double poczatkowaMasa;
 	static double gz = 9.8;
 	static double gm = 3.7;
@@ -63,6 +63,7 @@ public class Main extends JFrame {
 							JOptionPane.WARNING_MESSAGE);
 					return;
 				}
+				i = 0;
 				isRunning = true;
 				panel3.wskaznikPaliwa.setMaximum(panel2.getMasaPaliwa());
 				ObliczeniaProgressBar();
@@ -117,13 +118,13 @@ public class Main extends JFrame {
 				switch (planeta) {
 				case ("Ziemia"):
 					obliczenia.oblicz(poczatkowaMasa, wybranaRakieta.getMasaRakiety(), wybranaRakieta.getNGZ(),
-							wybranaRakieta.getVGZ(), gz, scheduler, 7900, 11200, i, isRunning, k, panel3);
-					i = i + 10;
+							wybranaRakieta.getVGZ(), gz, scheduler, 7900, 11200, i, isRunning, panel3);
+					i = i + 1;
 					break;
 				case ("Mars"):
 					obliczenia.oblicz(poczatkowaMasa, wybranaRakieta.getMasaRakiety(), wybranaRakieta.getNGM(),
-							wybranaRakieta.getVGM(), gm, scheduler, 3600, 5000, i, isRunning, k, panel3);
-					i = i + 10;
+							wybranaRakieta.getVGM(), gm, scheduler, 3600, 5000, i, isRunning, panel3);
+					i = i + 1;
 					break;
 				}
 

@@ -122,7 +122,6 @@ public class ButtonPanel extends JPanel {
 				if (wyborRakiety.getSelectedItem() == "Wybierz rakiete...") {
 					JOptionPane.showMessageDialog(null, "Nie wybrano rakiety", "Informacja",
 							JOptionPane.WARNING_MESSAGE);
-					return;
 				}
 
 				Rakieta wybrana = (Rakieta) wyborRakiety.getSelectedItem();
@@ -259,6 +258,7 @@ public class ButtonPanel extends JPanel {
 	public int getMasaPaliwa() {
 		int x = Integer.parseInt(masaPaliwa.getText());
 		return x;
+
 	}
 
 }

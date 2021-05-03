@@ -12,34 +12,30 @@ public class Obliczenia {
 
 	public void oblicz(double poczatkowaMasa, double masaRakiety, double ng, double vg, double g,
 			ScheduledExecutorService scheduler, double pierwszaPredkosc, double drugaPredkosc, int j, boolean isRunning,
-			int k, FuelPanel panel) {
+			FuelPanel panel) {
 
 		if (isRunning == true) {
 			if (poczatkowaMasa > ng) {
-				pozostalaMasa = poczatkowaMasa - (ng * j);
+				pozostalaMasa = poczatkowaMasa - (ng * 0.5 *j);
 				masaCalkowita = masaRakiety + poczatkowaMasa;
 				panel.wskaznikPaliwa.setValue((int) pozostalaMasa);
-				predkosc = (vg * Math.log(masaCalkowita / (masaCalkowita - (ng * j)))) - (g * j);
+				predkosc = (vg * Math.log(masaCalkowita / (masaCalkowita - (ng * 0.5 *j)))) - (g *  0.5 *j);
 
 				panel.predkoscValue = (float) predkosc;
-				panel.czasValue = j;
+				panel.czasValue = 0.5* j;
 				panel.paliwoValue = pozostalaMasa;
 				panel.updateLabels();
-				
-				
+
 				if (predkosc < 0) {
 					JOptionPane.showMessageDialog(null, "Rakieta jest zbyt ciężka, by się wznieść!", "Anulowano",
 							JOptionPane.WARNING_MESSAGE);
 					scheduler.shutdownNow();
 				}
-
 				if (pozostalaMasa <= 0) {
 					panel.paliwoValue = 0;
 					panel.updateLabels();
-					JOptionPane.showMessageDialog(null, "Skończyło się paliwo", "Koniec",
-							JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Skończyło się paliwo", "Koniec", JOptionPane.WARNING_MESSAGE);
 					scheduler.shutdownNow();
-
 				}
 				if (predkosc >= pierwszaPredkosc && pozostalaMasa >= 0) {
 					JOptionPane.showMessageDialog(null, "Pierwsza prędkość kosmiczna! Wyniesiono rakietę na orbitę!");
@@ -51,7 +47,7 @@ public class Obliczenia {
 				JOptionPane.showMessageDialog(null, "Zbyt mała masa paliwa", "Anulowano", JOptionPane.WARNING_MESSAGE);
 				scheduler.shutdownNow();
 			}
-		}		
+		}
 
 	}
 
@@ -62,7 +58,5 @@ public class Obliczenia {
 			scheduler.shutdownNow();
 		}
 	}
-
-	
 
 }
