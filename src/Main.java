@@ -57,22 +57,18 @@ public class Main extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				if (isRunning == false) {
-					if (panel2.wyborRakiety.getSelectedItem() == "Wybierz rakiete..."
-							|| panel2.wyborPlanety.getSelectedItem() == "Wybierz planete...") {
-						JOptionPane.showMessageDialog(null, "Nie wypełniono wymaganych pól", "Informacja",
-								JOptionPane.WARNING_MESSAGE);
-						return;
-					}
-					isRunning = true;
-					// k++;
-					i = 0; // jezeli klikam start, liczy od poczatku
-					panel3.wskaznikPaliwa.setMaximum(panel2.getMasaPaliwa());
-					ObliczeniaProgressBar();
-
-					// ewentualna funkcja uruchomienia animacji
+				if (panel2.wyborRakiety.getSelectedItem() == "Wybierz rakiete..."
+						|| panel2.wyborPlanety.getSelectedItem() == "Wybierz planete...") {
+					JOptionPane.showMessageDialog(null, "Nie wypełniono wymaganych pól", "Informacja",
+							JOptionPane.WARNING_MESSAGE);
+					return;
 				}
-				
+				isRunning = true;
+				panel3.wskaznikPaliwa.setMaximum(panel2.getMasaPaliwa());
+				ObliczeniaProgressBar();
+
+				// ewentualna funkcja uruchomienia animacji
+
 			}
 		});
 
@@ -112,7 +108,6 @@ public class Main extends JFrame {
 				obliczenia = new Obliczenia();
 				obliczenia.przerwijWatek(scheduler, isRunning); // przerywanie watku do reseta
 
-				// obliczenia.sprawdzParzystosc(scheduler, k); //to mialo byc do "stop"
 
 				Rakieta wybranaRakieta = (Rakieta) panel2.wyborRakiety.getSelectedItem();
 				String planeta = (String) panel2.wyborPlanety.getSelectedItem();

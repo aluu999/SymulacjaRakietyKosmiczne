@@ -34,7 +34,9 @@ public class Obliczenia {
 				}
 
 				if (pozostalaMasa <= 0) {
-					JOptionPane.showMessageDialog(null, "Skończyło się paliwo", "Anulowano",
+					panel.paliwoValue = 0;
+					panel.updateLabels();
+					JOptionPane.showMessageDialog(null, "Skończyło się paliwo", "Koniec",
 							JOptionPane.WARNING_MESSAGE);
 					scheduler.shutdownNow();
 
@@ -61,13 +63,6 @@ public class Obliczenia {
 		}
 	}
 
-	/*
-	 * public void sprawdzParzystosc(ScheduledExecutorService scheduler, int k) {
-	 * 
-	 * if (k % 2 == 0) { System.out.println("Kliknales stop,k=" + k); //liczy stop
-	 * podwojnie i dopiero kończy wątek scheduler.shutdownNow(); }
-	 * 
-	 * }
-	 */
+	
 
 }
