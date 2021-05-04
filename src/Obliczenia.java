@@ -42,6 +42,8 @@ public class Obliczenia {
 
 				if (predkosc < 0) {
 					panel.predkoscValue = 0;
+					panel.czasValue = 0;
+					panel.paliwoValue=poczatkowaMasa;
 					panel.updateLabels();
 					JOptionPane.showMessageDialog(null, "Rakieta jest zbyt ciężka, by się wznieść!", "Anulowano",
 							JOptionPane.WARNING_MESSAGE);
@@ -62,6 +64,8 @@ public class Obliczenia {
 					JOptionPane.showMessageDialog(null, "Osiągnięto prędkość ucieczki!");
 				}
 			} else {
+				panel.paliwoValue=poczatkowaMasa;
+				panel.updateLabels();
 				JOptionPane.showMessageDialog(null, "Zbyt mała masa paliwa", "Anulowano", JOptionPane.WARNING_MESSAGE);
 				scheduler.shutdownNow();
 			}
