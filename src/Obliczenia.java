@@ -1,32 +1,48 @@
+import java.util.ArrayList;
 import java.util.concurrent.ScheduledExecutorService;
-
 import javax.swing.JOptionPane;
 
 public class Obliczenia {
 
-	public double pozostalaMasa, masaCalkowita, predkosc;
-	public int j;
+	public double pozostalaMasa, masaCalkowita, predkosc, predkoscPoprzednia;
+	public int j,click;
+	public Wykres chart;
+	ArrayList<Double> listaPredkosc;
+	ArrayList<Double> listaCzas;
 
 	public Obliczenia() {
+		listaPredkosc = new ArrayList<Double>();
+		listaCzas = new ArrayList<Double>();
 	}
 
 	public void oblicz(double poczatkowaMasa, double masaRakiety, double ng, double vg, double g,
 			ScheduledExecutorService scheduler, double pierwszaPredkosc, double drugaPredkosc, int j, boolean isRunning,
-			FuelPanel panel) {
+			FuelPanel panel, int c) {
 
 		if (isRunning == true) {
 			if (poczatkowaMasa > ng) {
-				pozostalaMasa = poczatkowaMasa - (ng * 0.5 *j);
+				pozostalaMasa = poczatkowaMasa - (ng * 0.5 * j);
 				masaCalkowita = masaRakiety + poczatkowaMasa;
 				panel.wskaznikPaliwa.setValue((int) pozostalaMasa);
-				predkosc = (vg * Math.log(masaCalkowita / (masaCalkowita - (ng * 0.5 *j)))) - (g *  0.5 *j);
+				predkosc = (vg * Math.log(masaCalkowita / (masaCalkowita - (ng * 0.5 * j)))) - (g * 0.5 * j);
 
 				panel.predkoscValue = (float) predkosc;
-				panel.czasValue = 0.5* j;
+				panel.czasValue = 0.5 * j;
 				panel.paliwoValue = pozostalaMasa;
 				panel.updateLabels();
 
+				// listy do wykresu
+				listaPredkosc.add(predkosc);
+				listaCzas.add(0.5 * j);
+
+				// liczymy poprzednia predkosc zeby nie pokazywaly sie zapetlone okna o
+				// predkosciach kosmicznych
+				predkoscPoprzednia = (vg * Math.log(masaCalkowita / (masaCalkowita - (ng * 0.5 * (j - 1)))))
+						- (g * 0.5 * (j - 1));
+
 				if (predkosc < 0) {
+					panel.predkoscValue = 0;
+					panel.updateLabels();
 					JOptionPane.showMessageDialog(null, "Rakieta jest zbyt ciężka, by się wznieść!", "Anulowano",
 							JOptionPane.WARNING_MESSAGE);
 					scheduler.shutdownNow();
@@ -35,12 +51,14 @@ public class Obliczenia {
 					panel.paliwoValue = 0;
 					panel.updateLabels();
 					JOptionPane.showMessageDialog(null, "Skończyło się paliwo", "Koniec", JOptionPane.WARNING_MESSAGE);
+					setListy(listaPredkosc, listaCzas);
 					scheduler.shutdownNow();
+
 				}
-				if (predkosc >= pierwszaPredkosc && pozostalaMasa >= 0) {
+				if (predkoscPoprzednia < pierwszaPredkosc && predkosc >= pierwszaPredkosc && pozostalaMasa >= 0) {
 					JOptionPane.showMessageDialog(null, "Pierwsza prędkość kosmiczna! Wyniesiono rakietę na orbitę!");
 				}
-				if (predkosc >= drugaPredkosc && pozostalaMasa >= 0) {
+				if (predkoscPoprzednia < drugaPredkosc && predkosc >= drugaPredkosc && pozostalaMasa >= 0) {
 					JOptionPane.showMessageDialog(null, "Osiągnięto prędkość ucieczki!");
 				}
 			} else {
@@ -58,5 +76,21 @@ public class Obliczenia {
 			scheduler.shutdownNow();
 		}
 	}
+
+	
+	 public void setListy(ArrayList<Double> listaP, ArrayList<Double> listaC) {
+		 this.listaPredkosc=listaP;
+		 this.listaCzas=listaC;
+	 }
+	 
+	 public ArrayList<Double> getListaP(){
+		 return listaPredkosc;
+	 } 
+	 
+	 public ArrayList<Double> getListaC(){
+		 return listaCzas;
+	 } 
+	 
+	 
 
 }

@@ -18,12 +18,15 @@ public class Main extends JFrame {
 	public ButtonPanel panel2;
 	public FuelPanel panel3;
 	public Obliczenia obliczenia;
+	public Wykres chart;
 	public int i;
+	public int click=0;
 	public double poczatkowaMasa;
 	static double gz = 9.8;
 	static double gm = 3.7;
 	boolean isRunning; // domyslnie jest false
 
+	
 	public Main() throws HeadlessException {
 		this.setSize(640, 480);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -41,8 +44,8 @@ public class Main extends JFrame {
 		this.add(panel3, BorderLayout.PAGE_END);
 
 		panel1.setBackground(Color.black); // to tylko do pomocy dla mnie, potem to usunê
-		panel2.setBackground(Color.blue);
-		panel3.setBackground(Color.green);
+		//panel2.setBackground(Color.blue);
+		//panel3.setBackground(Color.green);
 
 		panel3.reset.addActionListener(new ActionListener() {
 			@Override
@@ -66,13 +69,22 @@ public class Main extends JFrame {
 				i = 0;
 				isRunning = true;
 				panel3.wskaznikPaliwa.setMaximum(panel2.getMasaPaliwa());
+				obliczenia=new Obliczenia();
 				ObliczeniaProgressBar();
-
 				// ewentualna funkcja uruchomienia animacji
 
 			}
 		});
 
+		panel2.wykres.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(obliczenia.getListaP()!=null && obliczenia.getListaC()!=null) {
+					chart=new Wykres(obliczenia.getListaP(), obliczenia.getListaC());
+				}
+			}
+		});
+	
 	}
 
 	public Main(GraphicsConfiguration gc) {
@@ -102,13 +114,11 @@ public class Main extends JFrame {
 	void ObliczeniaProgressBar() {
 		ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 		scheduler.scheduleWithFixedDelay((new Runnable() {
-
 			@Override
 			public void run() {
-
-				obliczenia = new Obliczenia();
+				//obliczenia = new Obliczenia();
 				obliczenia.przerwijWatek(scheduler, isRunning); // przerywanie watku do reseta
-
+				
 
 				Rakieta wybranaRakieta = (Rakieta) panel2.wyborRakiety.getSelectedItem();
 				String planeta = (String) panel2.wyborPlanety.getSelectedItem();
@@ -118,12 +128,12 @@ public class Main extends JFrame {
 				switch (planeta) {
 				case ("Ziemia"):
 					obliczenia.oblicz(poczatkowaMasa, wybranaRakieta.getMasaRakiety(), wybranaRakieta.getNGZ(),
-							wybranaRakieta.getVGZ(), gz, scheduler, 7900, 11200, i, isRunning, panel3);
+							wybranaRakieta.getVGZ(), gz, scheduler, 7900, 11200, i, isRunning, panel3,click);
 					i = i + 1;
 					break;
 				case ("Mars"):
 					obliczenia.oblicz(poczatkowaMasa, wybranaRakieta.getMasaRakiety(), wybranaRakieta.getNGM(),
-							wybranaRakieta.getVGM(), gm, scheduler, 3600, 5000, i, isRunning, panel3);
+							wybranaRakieta.getVGM(), gm, scheduler, 3600, 5000, i, isRunning, panel3,click);
 					i = i + 1;
 					break;
 				}

@@ -29,18 +29,15 @@ public class ButtonPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	public JTextField masaPaliwa;
-	public JButton info;
-	public JButton wykres;
+	public JButton info,wykres;
 	public JComboBox<Rakieta> wyborRakiety;
-	public JLabel wR;
 	public JComboBox<String> wyborPlanety;
-	public JLabel wP, dane, labelImg, label;
+	public JLabel wR,wP, dane, labelImg, label;
 	public JTextArea opis;
 	public JDialog okno;
 	public JPanel panelImg, panelText;
 	public GridBagConstraints c, d;
 	public ImageIcon img;
-	public Wykres chart;
 
 	public ButtonPanel() {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -217,14 +214,6 @@ public class ButtonPanel extends JPanel {
 		wykres = new JButton("Wykres");
 		wykres.setAlignmentX(Component.CENTER_ALIGNMENT);
 		this.add(wykres);
-
-		ActionListener wykres_l = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg) {
-				chart = new Wykres();
-			}
-		};
-		wykres.addActionListener(wykres_l);
 
 		Dimension d = info.getMaximumSize();
 		wyborRakiety.setMaximumSize(d);
