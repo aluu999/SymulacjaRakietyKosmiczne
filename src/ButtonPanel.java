@@ -29,10 +29,10 @@ public class ButtonPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	public JTextField masaPaliwa;
-	public JButton info,wykres;
+	public JButton info, wykres;
 	public JComboBox<Rakieta> wyborRakiety;
 	public JComboBox<String> wyborPlanety;
-	public JLabel wR,wP, dane, labelImg, label;
+	public JLabel wR, wP, dane, labelImg, label;
 	public JTextArea opis;
 	public JDialog okno;
 	public JPanel panelImg, panelText;
@@ -60,8 +60,8 @@ public class ButtonPanel extends JPanel {
 			}
 		};
 
-		wyborRakiety.addItem(new Rakieta("SaturnV", 2580, 13000, 970, 35000, 140000));
-		wyborRakiety.addItem(new Rakieta("Big Falcon Rocket", 3300, 900, 1240, 2400, 100000));
+		wyborRakiety.addItem(new Rakieta("SaturnV", 2580, 13000, 970, 35000, 1000000));
+		wyborRakiety.addItem(new Rakieta("Big Falcon Rocket", 3300, 900, 1240, 2400, 150000));
 
 		wyborRakiety.setSelectedIndex(-1);
 		this.add(wyborRakiety);
@@ -148,10 +148,13 @@ public class ButtonPanel extends JPanel {
 									+ "Do budowy obu stopni pojazdu zamiast włókna węglowego używana jest stal nierdzewna. "
 									+ "Wykorzystywany do wyniesienia rakiety silnik Raptor napędzany jest ciekłym metanem. "
 									+ "W symulacji przyjmujemy, iż korzystamy z jednego tego typu silnika. "
-									+ "Dane wykorzystane w symulacji: " + "masa (bez paliwa): 100 000kg, "
+									+ "Dane wykorzystane w symulacji: " + "masa (bez paliwa): 150 000kg, masa wynoszonego ładunku ok. 5 000 kg, "
 									+ "siła ciągu=3000kN," + "impuls właściwy=334s, "
 									+ "spalanie na Ziemii=900kg/s, na Marsie=2400kg/s, "
-									+ "prędkość gazów wylotowych na Ziemii=3300m/s, na Marsie=1240m/s. ",
+									+ "prędkość gazów wylotowych na Ziemii=3300m/s, na Marsie=1240m/s. "
+									+"W symulacji starano się zachować proporcje, by model był dobrym odwzorowaniem rzeczywistości."
+									+ "Rakieta ma dwa stopnie. W symulacji po 45s odłączone zostaje 100 000 kg, "
+									+ "po 55s kolejne 45 000 kg. ",
 							10, 40);
 					img = new ImageIcon(this.getClass().getResource("/Starship.jpg"));
 					label = new JLabel("Fot. Grafika komputerowa przedstawiająca start Starship. Zródło: Wikipedia");
@@ -165,13 +168,19 @@ public class ButtonPanel extends JPanel {
 					opis = new JTextArea(
 							"Rakieta wykorzystywana przez NASA w programach kosmicznych takich jak Skylab i Apollo. "
 									+ "Celem zbudowania rakiety było zabranie ludzi na Księżyc. "
-									+ "Rakieta miała wysokość 110m i i 10m średnicy. "
+									+ "Rakieta miała wysokość 110m i i 10m średnicy. Masa wynoszonego ładunku ok. 118 000 kg, "
+									+ "masa całkowita może natomiast sięgać do 3 000 000 kg. "
 									+ "Satrun V składał się z trzech członów (wszystkie napędzane paliwem ciekłym): S-IC, S-II oraz S-IVB. "
 									+ "Pierwszy stopień S-IC, który przyjmujemy w symulacji, napędzany był mieszaniną węglowodorów. "
-									+ "Dane wykorzystane w symulacji: " + "masa (bez paliwa): 140 000kg, "
-									+ "siła ciągu=34 000kN," + "impuls właściwy=263s, "
+									+ "Dane wykorzystane w symulacji: " + "siła ciągu=34 000kN,"
+									+ "impuls właściwy=263s, "
 									+ "spalanie na Ziemii=13 000 kg/s, na Marsie=35 000 kg/s, "
-									+ "prędkość gazów wylotowych na Ziemii=2580 m/s, na Marsie=970 m/s. ",
+									+ "prędkość gazów wylotowych na Ziemii=2580 m/s, na Marsie=970 m/s. "
+									+ "Z racji, iż symulacja jest uproszczona i korzystamy z jednego (i jednego rodzaju) silnika,"
+									+ "korzystamy z masy całkowitej rakiety 1 000 000kg oraz masa wynoszonego ładunku to 40 000 kg."
+									+ "W symulacji starano się zachować proporcje, by model był dobrym odwzorowaniem rzeczywistości."
+									+ "Rakieta ma trzy stopnie. W symulacji po 35s odłączone zostaje 800 000 kg, "
+									+ "po 45s kolejne 100 000 kg, a po 65s 60 000 kg",
 							10, 40);
 					img = new ImageIcon(this.getClass().getResource("/saturnv.jpg"));
 					label = new JLabel("Fot. Saturn V podczas misji Apollo 11. Zródło: Wikipedia");

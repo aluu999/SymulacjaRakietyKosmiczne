@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 public class Main extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	public JPanel panel1;
+	public Animacja panel1;
 	public ButtonPanel panel2;
 	public FuelPanel panel3;
 	public Obliczenia obliczenia;
@@ -28,22 +28,19 @@ public class Main extends JFrame {
 
 	
 	public Main() throws HeadlessException {
-		this.setSize(640, 480);
+		this.setSize(690, 480);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setLayout(new BorderLayout());
 
 		isRunning = false;
-
-		panel1 = new JPanel();
+		panel1 =new Animacja();
 		this.add(panel1, BorderLayout.CENTER);
 		panel2 = new ButtonPanel();
 		this.add(panel2, BorderLayout.LINE_END);
-
 		panel3 = new FuelPanel();
-
 		this.add(panel3, BorderLayout.PAGE_END);
 
-		panel1.setBackground(Color.black); // to tylko do pomocy dla mnie, potem to usunê
+		 //to tylko do pomocy dla mnie, potem to usunê
 		//panel2.setBackground(Color.blue);
 		//panel3.setBackground(Color.green);
 
@@ -71,8 +68,6 @@ public class Main extends JFrame {
 				panel3.wskaznikPaliwa.setMaximum(panel2.getMasaPaliwa());
 				obliczenia=new Obliczenia();
 				ObliczeniaProgressBar();
-				// ewentualna funkcja uruchomienia animacji
-
 			}
 		});
 
@@ -116,9 +111,7 @@ public class Main extends JFrame {
 		scheduler.scheduleWithFixedDelay((new Runnable() {
 			@Override
 			public void run() {
-				//obliczenia = new Obliczenia();
 				obliczenia.przerwijWatek(scheduler, isRunning); // przerywanie watku do reseta
-				
 
 				Rakieta wybranaRakieta = (Rakieta) panel2.wyborRakiety.getSelectedItem();
 				String planeta = (String) panel2.wyborPlanety.getSelectedItem();
@@ -128,12 +121,12 @@ public class Main extends JFrame {
 				switch (planeta) {
 				case ("Ziemia"):
 					obliczenia.oblicz(poczatkowaMasa, wybranaRakieta.getMasaRakiety(), wybranaRakieta.getNGZ(),
-							wybranaRakieta.getVGZ(), gz, scheduler, 7900, 11200, i, isRunning, panel3,click);
+							wybranaRakieta.getVGZ(), gz, scheduler, 7900, 11200, i, isRunning, panel3,click,wybranaRakieta.getNazwaRakiety());
 					i = i + 1;
 					break;
 				case ("Mars"):
 					obliczenia.oblicz(poczatkowaMasa, wybranaRakieta.getMasaRakiety(), wybranaRakieta.getNGM(),
-							wybranaRakieta.getVGM(), gm, scheduler, 3600, 5000, i, isRunning, panel3,click);
+							wybranaRakieta.getVGM(), gm, scheduler, 3600, 5000, i, isRunning, panel3,click,wybranaRakieta.getNazwaRakiety());
 					i = i + 1;
 					break;
 				}

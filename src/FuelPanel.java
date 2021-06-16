@@ -87,7 +87,8 @@ public class FuelPanel extends JPanel {
 	}
 	
 	void updateLabels() {
-		predkosc.setText("Prędkość: " + predkoscValue + " m/s");
+		String predkoscString = String.format("%.2f", predkoscValue);
+		predkosc.setText("Prędkość: " + predkoscString + " m/s");
 		czas.setText("Czas: " + czasValue + " s");
 		paliwo.setText("Zostało paliwa: " + paliwoValue + " kg");
 	}
